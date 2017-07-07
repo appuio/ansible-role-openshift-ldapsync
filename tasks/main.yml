@@ -14,6 +14,9 @@
     content: "{{ blacklist | default([]) | join('\n') }}"
     dest: /etc/origin/master/ldapsync-blacklist.txt
 
+- name: Sync LDAP groups
+  command: "oc adm groups sync --whitelist=/etc/origin/master/ldapsync-whitelist.txt --blacklist=/etc/origin/master/ldapsync-blacklist.txt  --sync-config=/etc/origin/master/ldapsync-config.yml --confirm"
+
 - name: Configure LDAP sync cron job
   cron:
     name: "Synchronize OpenShift groups with LDAP"
