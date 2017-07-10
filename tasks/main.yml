@@ -20,8 +20,10 @@
 - name: Configure LDAP sync cron job
   cron:
     name: "Synchronize OpenShift groups with LDAP"
+    user: root
+    cron_file: openshift_ldapsync
     special_time: hourly
-    job: "oc adm groups sync --whitelist=/etc/origin/master/ldapsync-whitelist.txt --blacklist=/etc/origin/master/ldapsync-blacklist.txt  --sync-config=/etc/origin/master/ldapsync-config.yml --confirm"
+    job: "oc adm groups sync --whitelist=/etc/origin/master/ldapsync-whitelist.txt --blacklist=/etc/origin/master/ldapsync-blacklist.txt  --sync-config=/etc/origin/master/ldapsync-config.yml --confirm >/dev/null"
 
 - name: Assign roles to synched groups
   openshift_policy:
